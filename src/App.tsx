@@ -1,4 +1,4 @@
-import MockVisitorWebsite from './components/MockVisitorWebsite.jsx';
+import MockVisitorWebsite from './components/MockVisitorWebsite';
 import {
   BrowserRouter as Router,
   Switch,

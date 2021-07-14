@@ -1,8 +1,9 @@
-import VisitorChat from './VisitorChat.jsx'
+import { ReactElement } from 'react';
+import VisitorChat from './VisitorChat'
 import logo from './../logo.svg';
 import './../App.css';
 
-function MockVisitorWebsite() {
+function MockVisitorWebsite(): ReactElement {
 return (
     <div className="App">
       <header className="App-header">

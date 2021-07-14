@@ -4,26 +4,22 @@
  * * open socket connection when user clicks open chat
  * 
  * **************************************/
- import { useEffect, useState } from 'react';
+ import { ReactElement, useEffect } from 'react';
  import { Widget, addResponseMessage, addUserMessage } from 'react-chat-widget'
  import socketIOClient from 'socket.io-client';
  
+ import { Message } from '../common/types';
  import 'react-chat-widget/lib/styles.css';
  
- let io = null;
- function VisitorChat() {
+ let io: any = null;
+ function VisitorChat(): ReactElement {
 
-   /* eslint-disable no-unused-vars */
-   const [supportChat, setSupportChat] = useState( {isOpen: false} );
-   // supportChat isn't used, exists to allow future dev
-   /* eslint-enable no-unused-vars */
-
-   useEffect(() => {
-    const ENDPOINT = process.env.REACT_APP_CHAT_SERVER_URI;
+   useEffect((): void => {
+    const ENDPOINT: any = process.env.REACT_APP_CHAT_SERVER_URI;
     io = socketIOClient(ENDPOINT);
     io.emit('visitor entered');
 
-    io.on("previous messages downloaded", messages => {
+    io.on("previous messages downloaded", (messages: Message[]): void => {
       messages.forEach(msg => {
         // unfortonately the chat widget package doesn't support
         // bulk setting messages from outside
@@ -35,12 +31,12 @@
       })
     })
 
-    io.on("support sent message", msg => {
+    io.on("support sent message", (msg: Message): void => {
       addResponseMessage(msg.text);
     });
   }, []);
  
-   const handleNewUserMessage = (newMessage) => {
+   const handleNewUserMessage = (newMessage: Message): void => {
       console.log(newMessage);
       io.emit('visitor sent message',
         {
@@ -50,14 +46,10 @@
       // Now send the message throught the backend API
    };
  
-   const getWidgetButton = handleToggle =>
+   const getWidgetButton = (handleToggle: CallableFunction) =>
      <button
        onClick={() => {
          handleToggle();
-         setSupportChat(prevState => ({
-           ...prevState,
-           isOpen: !prevState.isOpen
-        }));
        }}
      >Toggle Chat</button>;
  
